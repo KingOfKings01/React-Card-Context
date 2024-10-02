@@ -1,11 +1,10 @@
 import { useContext, useState } from "react";
-import { products as productsData } from "../products";
+import PropTypes from 'prop-types'
 import { CartContext } from '../components/Context.jsx';
-import AddProduct from "../components/AddProduct.jsx";
 
-export default function Home() {
+
+export default function Home({products, setProducts}) {
   const [selectedOptions, setSelectedOptions] = useState({})
-  const [products, setProducts] = useState(productsData)
   const [isAvailable, setIsAvailable] = useState(true)
 
   const { addToCart } = useContext(CartContext)
@@ -67,8 +66,6 @@ export default function Home() {
   return (
     <div className="container">
       <h1 className="title">Products</h1>
-
-      <AddProduct  setProducts={setProducts}/>
       
       {products.map((product) => (
         <div key={product.id} className="card">
@@ -110,4 +107,16 @@ export default function Home() {
       ))}
     </div>
   )
+}
+
+
+Home.propTypes = {
+  products: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    quantity: PropTypes.objectOf(PropTypes.number).isRequired,
+  })).isRequired,
+  setProducts: PropTypes.func.isRequired,
 }

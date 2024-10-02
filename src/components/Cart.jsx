@@ -1,12 +1,14 @@
-import { CartContext } from '../components/Context.jsx'
+import { CartContext } from './Context.jsx'
 import { useContext } from "react";
+import PropTypes from 'prop-types'
 
-export default function Cart() {
+export default function Cart({setCartModal}) {
 
   const { cart: { products, totalPrice }, clearCart } = useContext(CartContext)
 
   return (
     <div className='container'>
+      <button onClick={()=>setCartModal(false)}>Go back</button>
       <h2 className="title">Cart</h2>
       {
         (products.length > 0) ?
@@ -56,4 +58,8 @@ export default function Cart() {
       }
     </div>
   )
+}
+
+Cart.propTypes = {
+  setCartModal: PropTypes.func.isRequired,
 }

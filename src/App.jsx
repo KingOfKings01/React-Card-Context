@@ -1,25 +1,31 @@
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-
 import './App.css'
 import Home from './pages/Home';
-import Cart from './pages/Cart';
+import Cart from './components/Cart';
+import AddProduct from "./components/AddProduct";
+import { products as productsData } from "./products";
+
 import { CartContext } from './components/Context';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 function App() {
   const { cart } = useContext(CartContext)
+  const [products, setProducts] = useState(productsData)
+  const [cartModal, setCartModal] = useState(false);
+  const [addProductModal, setAddProductModal] = useState(false);
   return (
-    <Router>
+    <>
       <nav>
-          <Link to={"/"}>Home</Link>
-          <Link to={"/cart"}>Cart {cart.totalQuantity}</Link>
+        <button onClick={() => { setAddProductModal(true) }}>Add New Product</button>
+        <button onClick={() => { setCartModal(true) }}>Cart {cart.totalQuantity}</button>
       </nav>
-      <Routes>
-        <Route path="/" element={<Home />} />  {/* Default route */}
-        <Route path="/cart" element={<Cart />} />  
-        <Route path="*" element={<>404 Page not found</>} />
-      </Routes>
-    </Router>
+
+      <div>
+        
+        {cartModal ? <Cart setCartModal={setCartModal} /> : <Home products={products} setProducts={setProducts} />}
+        {addProductModal && <AddProduct setProducts={setProducts} setAddProductModal={setAddProductModal} />}
+      </div>
+    </>
+
   )
 }
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from 'prop-types'
 
-export default function AddProduct({ setProducts }) {
+export default function AddProduct({ setProducts,setAddProductModal }) {
     const defaultData = {
         name: "",
         description: "",
@@ -13,7 +13,7 @@ export default function AddProduct({ setProducts }) {
         },
     };
 
-    const [ newProduct, setNewProduct ] = useState(defaultData);
+    const [newProduct, setNewProduct] = useState(defaultData);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -42,40 +42,49 @@ export default function AddProduct({ setProducts }) {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>
-                        Name: <input name="name" value={newProduct.name} onChange={handleChange} type="text" />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Description: <input name="description" onChange={handleChange} value={newProduct.description} type="text" />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Price: <input name="price" onChange={handleChange} value={newProduct.price} min={0} type="number" />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Quantity:
-                        <br />
-                        S <input name="S" onChange={handleChange} value={newProduct.quantity.S} min={0} type="number" />
-                        <br />
-                        M <input name="M" onChange={handleChange} value={newProduct.quantity.M} min={0} type="number" />
-                        <br />
-                        L <input name="L" onChange={handleChange} value={newProduct.quantity.L} min={0} type="number" />
-                    </label>
-                </div>
-                <button type="submit">Add New Product</button>
-            </form>
+        <div className="Modal">
+            <div className="modal-container">
+                <button onClick={() => setAddProductModal(false)}>Close</button>
+                <h2>Add Product</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="line-one">
+                        <label>
+                            Name: <input name="name" value={newProduct.name} onChange={handleChange} type="text" />
+                        </label>
+                        <label>
+                            Price: <input name="price" onChange={handleChange} value={newProduct.price} min={0} type="number" />
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Description: <input name="description" onChange={handleChange} value={newProduct.description} type="text" />
+                        </label>
+                    </div>
+                        <label>
+                            Quantity:
+                        </label>
+                    <div className="quantity-container">
+                        <div>
+                            <span>S:</span>
+                            <input name="S" onChange={handleChange} value={newProduct.quantity.S} min={0} type="number" />
+                        </div>
+                        <div>
+                            <span>M:</span>
+                            <input name="M" onChange={handleChange} value={newProduct.quantity.M} min={0} type="number" />
+                        </div>
+                        <div>
+                            <span>L:</span>
+                            <input name="L" onChange={handleChange} value={newProduct.quantity.L} min={0} type="number" />
+                        </div>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
         </div>
     );
 }
 
-AddProduct.propTypes={
+AddProduct.propTypes = {
     setProducts: PropTypes.func.isRequired,
+    setAddProductModal: PropTypes.func.isRequired,
 }
