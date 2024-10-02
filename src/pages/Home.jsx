@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
-import { products as productsData } from "../products"; // Assuming products is an array of objects with id, name, description, price, and quantity properties.
-import { CartContext } from '../components/Context.jsx'
+import { products as productsData } from "../products";
+import { CartContext } from '../components/Context.jsx';
+import AddProduct from "../components/AddProduct.jsx";
 
 export default function Home() {
   const [selectedOptions, setSelectedOptions] = useState({})
@@ -16,7 +17,7 @@ export default function Home() {
     })
 
     setIsAvailable(true)
-  }
+  };
 
   const handleAddToCard = (product) => {
     const selectedOption = selectedOptions[product.id]
@@ -31,8 +32,9 @@ export default function Home() {
       alert("This size is not available")
       return
     }
-    else
+    else {
       setIsAvailable(true)
+    }
 
     setProducts(prods => {
       return prods.map(prod => {
@@ -56,25 +58,26 @@ export default function Home() {
         S: 0, M: 0, L: 0,
       }
     }
-    
+
     cardProduct.quantity[selectedOption] = 1;
 
     addToCart(cardProduct)
-
   };
 
   return (
     <div className="container">
       <h1 className="title">Products</h1>
 
+      <AddProduct  setProducts={setProducts}/>
+      
       {products.map((product) => (
         <div key={product.id} className="card">
           <h2>{product.name}</h2>
           <p>{product.description}</p>
           <p>Price: {product.price}</p>
-          <ul>
+          
             {Object.entries(product.quantity).map(([size, value]) => (
-              <li key={size}>
+              <div key={size}>
                 <label
                   className={`
                     option ${(selectedOptions[product.id] === size ? 'selected' : '')}
@@ -90,19 +93,19 @@ export default function Home() {
                     value={size}
                     name={`size-${product.id}`}
                     checked={selectedOptions[product.id] === size}
-                    onChange={(e) => handleOptionChange(e, product.id)
-                    }
+                    onChange={(e) => handleOptionChange(e, product.id)}
                   />
                 </label>
-              </li>
+              </div>
             ))}
-          </ul>
-          {
-            isAvailable ?
-              <button onClick={() => handleAddToCard(product)}>Add to cart</button>
-              :
-              <button disabled onClick={() => handleAddToCard(product)}>Add to cart</button>
-          }
+
+            {
+              isAvailable ?
+                <button  onClick={() => handleAddToCard(product)} >Add to cart</button>
+                :
+                <button onClick={() => handleAddToCard(product)} disabled>Add to cart</button>
+            }
+
         </div>
       ))}
     </div>

@@ -16,8 +16,8 @@ export default function Cart() {
                 <ul key={product.id} className="card">
                   <li >{product.name}</li>
                   <li >{product.description}</li>
-                  
                   <li >Price: {product.price}</li>
+
                   {Object.entries(product.quantity).map(([size, value], index) => {
                     return <span className="box" key={index}> {size}: {value} </span>
                   })}
@@ -34,7 +34,6 @@ export default function Cart() {
               <p>Total Cost: {totalPrice}</p>
               <div>
                 <button onClick={() => {
-
                   alert('Clear Cart');
                   clearCart()
                 }}>Clear Cart</button>
@@ -46,7 +45,6 @@ export default function Cart() {
                 }>
                   Checkout
                 </button>
-
               </div>
             </div>
           </> :
